@@ -30,6 +30,17 @@ app.post('/todos', (req, res) => {
 	});
 });
 
+app.get('/todos', (req, res) => {
+	Todo.find(function(err, todos){
+		if(err) {
+			res.status(400).send(err);
+		} else{
+			res.send(todos);
+		}
+	});
+});
+
+
 
 
 
