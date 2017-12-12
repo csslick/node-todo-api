@@ -3,11 +3,11 @@ var bodyParser = require('body-parser');
 var {ObjectID} = require('mongodb');
 
 // 몽구스
-var {mongoose} = require('./../db/mongoose');
+var {mongoose} = require('./db/mongoose');
 
 // 스키마 모델
-var {Todo} = require('./../models/todo');
-var {User} = require('./../models/user');
+var {Todo} = require('./models/todo');
+var {User} = require('./models/user');
 
 var app = express();
 const port = process.env.PORT || 3000;
