@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var {ObjectID} = require('mongodb');
 
 // 몽구스
 var {mongoose} = require(__dirname + '/db/mongoose');
@@ -46,14 +47,20 @@ app.get('/todos/:id', (req, res) => {
 	var id = req.params.id;
 
 	// Valid id using isValid
-		// 404 - send back empty send
+	if(!ObjectID.isValid(id)){
+		return res.status(404).send('Error 404');
+	}
 
-		// findById
-			// success
-				// if todo - send it back
-				//	if no todo - send back 404 width empty body
-			// error
-				// 400 - and send empty body back
+	// findById
+	Todo.findById(id).then((result) => {
+		if(!result){
+			return res.status(404).send('Error 404');
+		}
+
+		res.send(result);
+	}).catch((e) => {
+		res.status(400).send('Error 400');
+	});
 });
 
 
