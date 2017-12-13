@@ -65,8 +65,6 @@ app.get('/todos/:id', (req, res) => {
 	});
 });
 
-
-
 // Read
 app.get('/users', (req, res) => {
 	User.find(function(err, result){
@@ -78,10 +76,50 @@ app.get('/users', (req, res) => {
 	});
 });
 
+// Delete
+app.delete('/todos/:id', (req, res) => {
+
+	// Get id
+	var id = req.params.id;
+	console.log(id);
+
+	// validate id -> not valid? return 404(요청 형식 오류)
+	if(!ObjectID.isValid(id)){
+		return res.status(404).send('404 error');
+	}
+
+	Todo.findByIdAndRemove(id).then((result) => {
+		if(!result){
+			return res.status(404).send('404 error');
+		}
+
+		res.send(result);
+	}).catch((e) => {
+		res.status(400).send('400 error?');
+		console.log('400 error');
+	});
+
+
+	// Todo.findByIdAndRemove(id, (err, result) => {
+
+	// 	if(err || id == undefined){
+	// 		return res.status(400).send('400 error - no request');
+	// 	}
+
+	// 	// 조회한 데이터 없음
+	// 	if(!result){
+	// 		return res.status(404).send('404 error');
+	// 	}
+	// 	res.send(result);
+	// 	console.log(result);
+	// })
+
+});
 
 
 
 
+/*  --------------------- */
 app.listen(port, () => {
 	console.log(`Server Running at ${port}`);
 });
